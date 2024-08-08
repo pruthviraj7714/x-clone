@@ -2,14 +2,14 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="flex justify-evenly mt-16 max-h-screen">
+    <div className="flex justify-evenly items-center mt-16 max-h-screen">
       <div className="bg-black">
         <Image
           src={"/logo.jpg"}
           alt="Logo"
           className="border-2 border-transparent bg-transparent "
-          width={500}
-          height={500}
+          width={580}
+          height={580}
         />
       </div>
       <div className="flex flex-col  mt-10">
