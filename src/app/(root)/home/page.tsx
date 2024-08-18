@@ -1,6 +1,6 @@
 export default function Home() {
   return (
-    <div className="border-white flex">
+    <div className="border-white bg-black text-white flex">
       hello ther4e Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo
       odio ad ducimus, accusamus necessitatibus amet molestias. At, voluptatem
       nisi rerum iure perferendis nostrum sit amet a aliquam et officiis quae.

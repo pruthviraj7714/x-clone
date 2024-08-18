@@ -1,7 +1,11 @@
+"use client";
 import { BellIcon, Bookmark, House, Search, User2 } from "lucide-react";
+import { signOut } from "next-auth/react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const Sidebar = () => {
+  const router = useRouter();
   return (
     <div className="max-h-screen w-[275px] p-4 mr-8">
       <div className="flex flex-col justify-center items-start">
@@ -35,6 +39,15 @@ const Sidebar = () => {
           </div>
           <div className="text-white flex justify-center items-center bg-sky-500 text-center rounded-full font-semibold px-8 py-3 mt-4 cursor-pointer hover:bg-sky-400">
             Post
+          </div>
+          <div
+            onClick={async () => {
+              signOut({ redirect: false });
+              router.push("/");
+            }}
+            className="text-white flex justify-center items-center bg-sky-500 text-center rounded-full font-semibold px-8 py-3 mt-4 cursor-pointer hover:bg-sky-400"
+          >
+            Logout
           </div>
         </div>
       </div>

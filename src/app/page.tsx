@@ -15,11 +15,31 @@ import { Button } from "@/components/ui/button";
 import CreateAccountDialog from "./components/CreateAccountDialog";
 import SignInDialog from "./components/SignInDialog";
 import { useState } from "react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [isCreateAccountDialogOpen, setIsCreateAccountDialogOpen] =
     useState<boolean>(false);
   const [isSignInOpen, setIsSignInOpen] = useState<boolean>(false);
+  const session = useSession();
+  const router = useRouter();
+
+  if (session && session.status === "loading") {
+    return (
+      <div className="min-h-screen flex justify-center items-center bg-black">
+        <div className="animate-pulse">
+          <Image src={"/logo.jpg"} alt="Logo" width={200} height={200} />
+        </div>
+      </div>
+    );
+  }
+
+  if (session && session.status === "authenticated") {
+    router.push("/home");
+    return;
+  }
+
   return (
     <div className="flex justify-evenly items-center py-11 bg-black h-screen">
       <div className="bg-transparent">
