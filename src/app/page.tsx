@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import SignInDialog from "@/components/SignInDialog";
@@ -11,10 +11,16 @@ export default function Home() {
   const [isCreateAccountDialogOpen, setIsCreateAccountDialogOpen] =
     useState<boolean>(false);
   const [isSignInOpen, setIsSignInOpen] = useState<boolean>(false);
-  const session = useSession();
+  const { data: session, status } = useSession();
   const router = useRouter();
 
-  if (session && session.status === "loading") {
+  useEffect(() => {
+    if (status === "authenticated") {
+      router.push("/home");
+    }
+  }, [status, router]);
+
+  if (status === "loading") {
     return (
       <div className="min-h-screen flex justify-center items-center bg-black">
         <div className="animate-pulse">
@@ -22,11 +28,6 @@ export default function Home() {
         </div>
       </div>
     );
-  }
-
-  if (session && session.status === "authenticated") {
-    router.push("/home");
-    return;
   }
 
   return (

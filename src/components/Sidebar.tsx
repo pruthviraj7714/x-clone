@@ -42,7 +42,7 @@ const Sidebar = () => {
           </div>
           <div
             onClick={async () => {
-              signOut({ redirect: false });
+              await signOut({ redirect: false });
               router.push("/");
             }}
             className="text-white flex justify-center items-center bg-sky-500 text-center rounded-full font-semibold px-8 py-3 mt-4 cursor-pointer hover:bg-sky-400"

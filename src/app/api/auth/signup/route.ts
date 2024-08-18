@@ -8,9 +8,15 @@ export async function POST(req: NextRequest) {
     const parsedBody = signUpSchema.safeParse(await req.json());
 
     if (!parsedBody.success) {
+      const errors = parsedBody.error.errors.map((err) => ({
+        field: err.path.join("."),
+        message: err.message,
+      }));
+
       return NextResponse.json(
         {
-          message: parsedBody.error.message,
+          message: "Invalid Inputs",
+          errors,
         },
         { status: 403 }
       );
@@ -25,9 +31,12 @@ export async function POST(req: NextRequest) {
     });
 
     if (user) {
-      return NextResponse.json({
-        message: "User already exists with this email or username",
-      }, { status: 409 }); 
+      return NextResponse.json(
+        {
+          message: "User already exists with this email or username",
+        },
+        { status: 409 }
+      );
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -37,16 +46,21 @@ export async function POST(req: NextRequest) {
         username,
         email,
         password: hashedPassword,
-      }
+      },
     });
 
-    return NextResponse.json({
-      message: "User created successfully"
-    }, { status: 201 }); 
-
+    return NextResponse.json(
+      {
+        message: "User created successfully",
+      },
+      { status: 201 }
+    );
   } catch (error) {
-    return NextResponse.json({
-      message: "Internal Server Error"
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        message: "Internal Server Error",
+      },
+      { status: 500 }
+    );
   }
 }

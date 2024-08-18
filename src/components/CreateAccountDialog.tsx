@@ -41,75 +41,76 @@ const CreateAccountDialog = ({ open, onOpenChange }: DialogProps) => {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-black text-white sm:max-w-[600px] sm:max-h-[490px] rounded-lg shadow-lg">
-        <DialogHeader>
-          <div className="flex justify-center items-center my-3">
-            <Image
-              src={"/logo.jpg"}
-              alt={"logo"}
-              height={50}
-              width={50}
-              className="rounded-full shadow-md"
-            />
-          </div>
-          <DialogTitle className="text-3xl text-center font-bold mb-2">
-            Create your account
-          </DialogTitle>
-        </DialogHeader>
-        <div className="grid gap-6 py-6 px-4">
-          <div className="flex items-center gap-4">
-            <Label
-              htmlFor="username"
-              className="w-1/3 text-right text-lg font-semibold"
-            >
-              Username
-            </Label>
-            <Input
-              id="username"
-              className="w-2/3 bg-transparent text-white rounded-md px-3 py-2 shadow-sm focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter your username here"
-              onChange={(e) => setUsername(e.target.value)}
-            />
-          </div>
-          <div className="flex items-center gap-4">
-            <Label
-              htmlFor="email"
-              className="w-1/3 text-right text-lg font-semibold"
-            >
-              Email
-            </Label>
-            <Input
-              id="email"
-              className="w-2/3 bg-transparent text-white rounded-md px-3 py-2 shadow-sm focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter your email here"
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div className="flex items-center gap-4">
-            <Label
-              htmlFor="password"
-              className="w-1/3 text-right text-lg font-semibold"
-            >
-              Password
-            </Label>
-            <Input
-              id="password"
-              className="w-2/3 bg-transparent text-white rounded-md px-3 py-2 shadow-sm focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter your password here"
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
+    <DialogContent className="bg-black text-white sm:max-w-[600px] sm:max-h-[500px] rounded-2xl shadow-2xl transform transition-all duration-300 ease-out hover:scale-105">
+      <DialogHeader>
+        <div className="flex justify-center items-center my-5">
+          <Image
+            src={"/logo.jpg"}
+            alt={"logo"}
+            height={60}
+            width={60}
+            className="rounded-full shadow-xl"
+          />
         </div>
-        <DialogFooter className="flex justify-center py-4 mb-2">
-          <Button
-            onClick={handleSignup}
-            className="bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-full px-8 py-2 shadow-lg transition-all"
+        <DialogTitle className="text-4xl text-center font-extrabold tracking-tight mb-4">
+          Create Your Account
+        </DialogTitle>
+      </DialogHeader>
+      <div className="grid gap-6 py-6 px-6">
+        <div className="flex items-center gap-4">
+          <Label
+            htmlFor="username"
+            className="w-1/3 text-right text-lg font-semibold tracking-wide"
           >
-            Create Account
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+            Username
+          </Label>
+          <Input
+            id="username"
+            className="w-2/3 bg-transparent text-white rounded-lg px-4 py-3 shadow-inner focus:ring-2 focus:ring-blue-500 transition-colors duration-200"
+            placeholder="Enter your username"
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </div>
+        <div className="flex items-center gap-4">
+          <Label
+            htmlFor="email"
+            className="w-1/3 text-right text-lg font-semibold tracking-wide"
+          >
+            Email
+          </Label>
+          <Input
+            id="email"
+            className="w-2/3 bg-transparent text-white rounded-lg px-4 py-3 shadow-inner focus:ring-2 focus:ring-blue-500 transition-colors duration-200"
+            placeholder="Enter your email"
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+        <div className="flex items-center gap-4">
+          <Label
+            htmlFor="password"
+            className="w-1/3 text-right text-lg font-semibold tracking-wide"
+          >
+            Password
+          </Label>
+          <Input
+            id="password"
+            className="w-2/3 bg-transparent text-white rounded-lg px-4 py-3 shadow-inner focus:ring-2 focus:ring-blue-500 transition-colors duration-200"
+            placeholder="Enter your password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+      </div>
+      <DialogFooter className="flex justify-center py-4">
+        <Button
+          onClick={handleSignup}
+          className="bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-full px-10 py-3 shadow-xl transition-transform transform hover:scale-105 active:scale-95"
+        >
+          Create Account
+        </Button>
+      </DialogFooter>
+    </DialogContent>
+  </Dialog>
+  
   );
 };
 
