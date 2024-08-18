@@ -1,22 +1,11 @@
 "use client";
 import Image from "next/image";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import CreateAccountDialog from "./components/CreateAccountDialog";
-import SignInDialog from "./components/SignInDialog";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import SignInDialog from "@/components/SignInDialog";
+import CreateAccountDialog from "@/components/CreateAccountDialog";
 
 export default function Home() {
   const [isCreateAccountDialogOpen, setIsCreateAccountDialogOpen] =
