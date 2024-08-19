@@ -4,17 +4,7 @@ import { compare } from "bcrypt";
 import { JWT } from "next-auth/jwt";
 import db from "./db";
 
-interface CustomSession extends Session {
-  user: {
-    id: string;
-    email: string;
-  };
-}
 
-interface CustomUser extends NextAuthUser {
-  id: string;
-  email: string;
-}
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -32,7 +22,7 @@ export const authOptions: NextAuthOptions = {
           placeholder: "password",
         },
       },
-      async authorize(credentials): Promise<CustomUser | null> {
+      async authorize(credentials): Promise<any> {
         if (!credentials?.email || !credentials.password) {
           throw new Error("Email and password are required");
         }
@@ -69,16 +59,17 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }: { token: JWT; user?: NextAuthUser }) {
       if (user) {
-        token.id = (user as CustomUser).id;
+        token.id = user.id;
         token.email = user.email;
       }
       return token;
     },
     async session({ session, token }: { session: Session; token: JWT }) {
       if (token) {
-        (session as CustomSession).user = {
+        session.user = {
           id: token.id as string,
           email: token.email as string,
+          name : token.name as string
         };
       }
       return session;
