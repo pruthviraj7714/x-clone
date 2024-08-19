@@ -3,7 +3,13 @@ import { ImageIcon, SmileIcon } from "lucide-react";
 import { Button } from "./ui/button";
 import { useRef, useState } from "react";
 
-export default function Twitte() {
+export default function Twitte({
+  username,
+  photo,
+}: {
+  username: string;
+  photo: string;
+}) {
   const [text, setText] = useState("");
   const textareaRef = useRef<any>(null);
 
@@ -27,7 +33,12 @@ export default function Twitte() {
     <div className="w-full flex-1 h-auto p-4 border-b border-gray-700">
       <div className="flex gap-3">
         <div className="h-12 w-12 rounded-full bg-gray-600 flex justify-center items-center text-white">
-          P
+          {photo  ? (
+            <img src={photo} alt="Profile Photo" className="h-full w-full rounded-full object-cover" />
+          ) : (
+            username && username.length > 0 &&  username.charAt(0).toUpperCase()
+
+          )}
         </div>
         <textarea
           ref={textareaRef}
