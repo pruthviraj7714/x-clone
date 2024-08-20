@@ -17,7 +17,9 @@ const Sidebar = () => {
             width={50}
             height={50}
           />
-          <div className="flex gap-4 my-4 text-xl font-semibold px-3 py-3 cursor-pointer hover:bg-gray-800 hover:rounded-full">
+          <div onClick={() => {
+            router.push('/home')
+          }} className="flex gap-4 my-4 text-xl font-semibold px-3 py-3 cursor-pointer hover:bg-gray-800 hover:rounded-full">
             <House className="text-white" />
             <span className="hidden lg:block">Home</span>
           </div>
@@ -33,7 +35,9 @@ const Sidebar = () => {
             <Bookmark className="text-white" />
             <span className="hidden lg:block">Bookmarks</span>
           </div>
-          <div className="flex gap-4 my-4 text-xl font-semibold px-3 py-3 cursor-pointer hover:bg-gray-800 hover:rounded-full">
+          <div onClick={() => {
+            router.push('/profile')
+          }} className="flex gap-4 my-4 text-xl font-semibold px-3 py-3 cursor-pointer hover:bg-gray-800 hover:rounded-full">
             <User2 className="text-white" />
             <span className="hidden lg:block">Profile</span>
           </div>
