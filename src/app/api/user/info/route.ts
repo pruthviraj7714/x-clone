@@ -24,7 +24,11 @@ export async function GET(req: NextRequest) {
         id: true,
         username: true,
         email: true,
-        posts: true,
+        posts: {
+          orderBy: {
+            createdAt: "desc",
+          },
+        },
         followers: true,
         followings: true,
         headerPhoto: true,
