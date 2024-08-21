@@ -20,6 +20,14 @@ export async function GET() {
       orderBy: {
         createdAt: "desc",
       },
+      include : {
+        user : {
+          select : {
+            username : true,
+            photo : true
+          }
+        }
+      }
     });
 
     return NextResponse.json({
