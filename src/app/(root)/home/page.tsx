@@ -62,6 +62,7 @@ export default function Home() {
           profilePhoto={post.user.photo}
           image={post.image}
           video={post.video}
+          createdAt={post.createdAt}
         />
       ))}
     </div>
