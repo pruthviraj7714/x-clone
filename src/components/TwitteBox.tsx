@@ -2,8 +2,8 @@
 import { ImageIcon, SmileIcon, XIcon } from "lucide-react";
 import { Button } from "./ui/button";
 import { useRef, useState } from "react";
-import data from "@emoji-mart/data";
-import { Picker, PickerStyles } from "emoji-mart";
+import axios from "axios";
+import { useToast } from "./ui/use-toast";
 
 export default function Twitte({
   username,
@@ -14,13 +14,16 @@ export default function Twitte({
 }) {
   const [text, setText] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const [selectedFile, setSelectedFile] = useState<string | null>(null);
-  const [fileType, setFileType] = useState<string | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [fileType, setFileType] = useState<"image" | "video" | null>(null);
   const filePickerRef = useRef<HTMLInputElement>(null);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [mediaUrl, setMediaUrl] = useState<string | null>(null);
+
+  const { toast } = useToast();
 
   const addEmoji = (emojiObject: any) => {
-    console.log(emojiObject); // This should now log the emoji object
     setText((prevText) => prevText + emojiObject.emoji);
     setShowEmojiPicker(false);
   };
@@ -44,19 +47,81 @@ export default function Twitte({
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
-      setSelectedFile(URL.createObjectURL(file));
       setFileType(file.type.startsWith("video") ? "video" : "image");
+      setSelectedFile(file);
+      setMediaUrl(URL.createObjectURL(file)); // Temporary URL for preview
+    }
+  };
+
+  const createPost = async () => {
+    try {
+      setUploading(true);
+      let mediaUrl: string | null = null;
+
+      // Upload the file if it exists
+      if (selectedFile) {
+        mediaUrl = await uploadFileToCloudinary(selectedFile);
+      }
+
+      const payload = {
+        text,
+        image: fileType === "image" ? mediaUrl : undefined,
+        video: fileType === "video" ? mediaUrl : undefined,
+      };
+
+      const res = await axios.post("/api/post/create", payload);
+
+      if (res.status === 201) {
+        toast({
+          title: "Post created successfully!",
+        });
+        setText("");
+        setSelectedFile(null);
+        setFileType(null);
+        setMediaUrl(null);
+        if (textareaRef.current) textareaRef.current.style.height = "auto";
+      } else {
+        throw new Error("Failed to create post");
+      }
+    } catch (error: any) {
+      toast({
+        title: error.response?.data?.message || "Failed to create post",
+        variant: "destructive",
+      });
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const uploadFileToCloudinary = async (file: File) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    try {
+      const response = await axios.post(
+        fileType === "image" ? "/api/upload/image" : "/api/upload/video",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      setMediaUrl( response.data.result.url)
+      return response.data.result.url;
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      return null;
     }
   };
 
   const removeSelectedFile = () => {
     setSelectedFile(null);
     setFileType(null);
+    setMediaUrl(null);
   };
 
   return (
     <div className="w-full flex-1 h-auto p-4 border-b border-gray-700">
-      <div className="text-pink-800">{selectedFile}</div>
       <div className="flex gap-3">
         <div className="h-12 w-12 rounded-full bg-gray-600 flex justify-center items-center text-white">
           {photo ? (
@@ -119,13 +184,16 @@ export default function Twitte({
               {maxLength - text.length}
             </div>
           )}
-          <Button className="rounded-full bg-sky-400 hover:bg-sky-500 px-5 py-2 text-white font-semibold">
-            Post
+          <Button
+            onClick={createPost}
+            className="rounded-full bg-sky-400 hover:bg-sky-500 px-5 py-2 text-white font-semibold"
+          >
+            {uploading ? "Uploading..." : "Post"}
           </Button>
         </div>
       </div>
 
-      {selectedFile && (
+      {mediaUrl && (
         <div className="relative mt-4">
           <XIcon
             className="cursor-pointer absolute right-3 top-3 z-10 bg-gray-800 text-white rounded-full p-1"
@@ -133,19 +201,26 @@ export default function Twitte({
           />
           {fileType === "image" ? (
             <img
-              src={selectedFile}
+              src={mediaUrl}
               alt="Selected"
               className="w-full object-contain rounded-lg"
             />
           ) : (
             <video
-              src={selectedFile}
+              src={mediaUrl}
               controls
               className="w-full object-contain rounded-lg"
             />
           )}
         </div>
       )}
+
+      {/* Emoji picker component */}
+      {/* {showEmojiPicker && (
+        <div className="absolute">
+          < data={data} onEmojiSelect={addEmoji} />
+        </div>
+      )} */}
     </div>
   );
 }
