@@ -31,8 +31,16 @@ export default function ProfilePage() {
     getUserInfo();
   }, []);
 
+  if (loading) {
+    return (
+      <div className="min-h-screen flex justify-center items-center bg-black">
+        <div className="w-16 h-16 border-4 border-sky-400 border-t-transparent border-t-4 rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
   return (
-    <div className="flex flex-col w-full border-l border-r border-gray-400">
+    <div className="flex flex-col w-full border-l border-r border-gray-400 min-h-screen">
       <div className="h-16 bg-black flex justify-start items-center">
         <div className="flex items-center">
           <ArrowLeft
@@ -102,7 +110,11 @@ export default function ProfilePage() {
           </div>
         </div>
       </div>
-      <ProfileTabs />
+      <ProfileTabs
+        posts={userInfo.posts}
+        username={userInfo.username}
+        photo={userInfo.photo}
+      />
     </div>
   );
 }

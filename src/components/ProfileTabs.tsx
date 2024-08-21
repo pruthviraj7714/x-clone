@@ -1,6 +1,15 @@
 import { useState } from "react";
+import PostBox from "./PostBox";
 
-export default function ProfileTabs() {
+export default function ProfileTabs({
+  posts,
+  photo,
+  username,
+}: {
+  posts: any[];
+  photo: string;
+  username: string;
+}) {
   const Tabs = ["Posts", "Replies", "Likes"];
   const [activeTab, setActiveTab] = useState<any>("Posts");
   return (
@@ -8,6 +17,7 @@ export default function ProfileTabs() {
       <div className="flex justify-between items-center px-3">
         {Tabs.map((t) => (
           <div
+            key={t}
             onClick={() => {
               setActiveTab(t);
             }}
@@ -28,7 +38,23 @@ export default function ProfileTabs() {
               activeTab !== "Posts" ? "hidden" : "visible"
             }`}
           >
-            No Posts Yet
+            <div className="flex flex-col">
+              {posts &&
+                posts.length > 0 &&
+                posts.map((post: any) => (
+                  <PostBox
+                    key={post.id}
+                    text={post.text}
+                    username={username}
+                    profilePhoto={photo}
+                    image={post.image}
+                    video={post.video}
+                    createdAt={post.createdAt}
+                    likes={post.likes}
+                    comments={post.comments}
+                  />
+                ))}
+            </div>
           </div>
         )}
         {activeTab === "Replies" && (

@@ -63,6 +63,8 @@ export default function Home() {
           image={post.image}
           video={post.video}
           createdAt={post.createdAt}
+          likes={post.likes}
+          comments={post.comments}
         />
       ))}
     </div>

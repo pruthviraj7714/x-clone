@@ -1,4 +1,4 @@
-import { Dot, HeartIcon, Reply, Share } from "lucide-react";
+import { Bookmark, Dot, HeartIcon, Reply, Share } from "lucide-react";
 import { format } from "date-fns";
 
 export default function PostBox({
@@ -8,6 +8,8 @@ export default function PostBox({
   image,
   video,
   createdAt,
+  likes,
+  comments,
 }: {
   text: string;
   username: string;
@@ -15,6 +17,8 @@ export default function PostBox({
   image: string;
   video: string;
   createdAt: Date;
+  likes: any[];
+  comments: any[];
 }) {
   const now = new Date();
   const seconds = Math.floor(
@@ -83,14 +87,31 @@ export default function PostBox({
       </div>
 
       <div className="flex justify-between items-center px-2 text-gray-400">
-        <span className="cursor-pointer hover:text-white transition-colors duration-150">
-          <HeartIcon size={20} />
+        <span className="cursor-pointer flex items-center transition-colors duration-150 hover:text-pink-500">
+          <HeartIcon
+            className="hover:bg-pink-600/30 hover:rounded-full p-1"
+            size={25}
+          />
+          <span>{likes?.length || 0}</span>
         </span>
-        <span className="cursor-pointer hover:text-white transition-colors duration-150">
-          <Reply size={20} />
+        <span className="cursor-pointer flex items-center transition-colors duration-150 hover:text-sky-500">
+          <Reply
+            className="hover:bg-sky-600/30 hover:rounded-full p-1"
+            size={25}
+          />
+          <span>{comments?.length || 0}</span>
         </span>
-        <span className="cursor-pointer hover:text-white transition-colors duration-150">
-          <Share size={20} />
+        <span className="cursor-pointer transition-colors duration-150 hover:text-sky-500">
+          <Share
+            className="hover:bg-sky-600/30 hover:rounded-full p-1"
+            size={25}
+          />
+        </span>
+        <span className="cursor-pointer transition-colors duration-150 hover:text-sky-500">
+          <Bookmark
+            className="hover:bg-sky-600/30 hover:rounded-full p-1"
+            size={25}
+          />
         </span>
       </div>
     </div>
