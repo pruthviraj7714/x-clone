@@ -15,7 +15,6 @@ export default function Home() {
     try {
       const res = await axios.get("/api/user/info");
       setUserInfo(res.data);
-      console.log(res.data);
     } catch (error: any) {
       toast({
         title: error.response.data.message,
@@ -54,23 +53,17 @@ export default function Home() {
   return (
     <div className="border-l border-r p-2 border-gray-400 bg-black text-white flex flex-col">
       <Twitte photo={userInfo?.photo} username={userInfo?.username} />
-      <PostBox
-        image="https://i.pinimg.com/474x/48/04/66/4804665f6810994c650a7172ba81ad39.jpg"
-        video=""
-      />
-      <PostBox
-        image="https://i.pinimg.com/474x/bf/dd/3c/bfdd3ce8b53717e0d94cd8c0f6a3f5e7.jpg"
-        video=""
-      />
-      <PostBox
-        image="https://i.pinimg.com/474x/2c/b4/34/2cb434075bc8058d829a46400e962599.jpg"
-        video=""
-      />
-      <PostBox
-        image="https://i.pinimg.com/236x/d2/39/89/d239895bee7a6ad28a25524e5547856d.jpg"
-        video=""
-      />
-      <PostBox image="" video="https://x.com/i/status/1825441643387826401" />
+
+      {posts.map((post) => (
+        <PostBox
+          key={post.id}
+          text={post.text}
+          username={post.user.username}
+          profilePhoto={post.user.photo}
+          image={post.image}
+          video={post.video}
+        />
+      ))}
     </div>
   );
 }
