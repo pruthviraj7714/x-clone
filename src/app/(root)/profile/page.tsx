@@ -1,4 +1,5 @@
 "use client";
+import ProfileTabs from "@/components/ProfileTabs";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import axios from "axios";
@@ -101,6 +102,7 @@ export default function ProfilePage() {
           </div>
         </div>
       </div>
+      <ProfileTabs />
     </div>
   );
 }
