@@ -1,5 +1,30 @@
-import { Bookmark, Dot, HeartIcon, Reply, Share } from "lucide-react";
+"use client";
+import {
+  BeanIcon,
+  Bookmark,
+  Delete,
+  DeleteIcon,
+  Dot,
+  DotSquareIcon,
+  Ellipsis,
+  HeartIcon,
+  Reply,
+  Share,
+  Trash2,
+} from "lucide-react";
 import { format } from "date-fns";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useRouter } from "next/navigation";
 
 export default function PostBox({
   text,
@@ -40,10 +65,14 @@ export default function PostBox({
     relativeTime = format(new Date(createdAt), "yyyy");
   }
 
+  const router = useRouter();
   return (
     <div className="w-full flex flex-col p-4 border-b border-gray-700 hover:bg-white/5 transition-colors duration-200">
-      <div className="flex mb-2">
-        <div className="w-10 h-10 rounded-full bg-gray-600 mr-4 overflow-hidden">
+      <div className="flex justify-between mb-2">
+        <div
+          className="w-10 h-10 rounded-full bg-gray-600 mr-4 overflow-hidden cursor-pointer"
+          onClick={() => router.push(`/${username}`)}
+        >
           {profilePhoto ? (
             <img
               src={profilePhoto}
@@ -58,7 +87,12 @@ export default function PostBox({
         </div>
         <div className="flex-1">
           <div className="flex justify-start items-center mb-1">
-            <span className="font-semibold text-white">{username}</span>
+            <span
+              onClick={() => router.push(`/${username}`)}
+              className="font-semibold text-white cursor-pointer hover:underline"
+            >
+              {username}
+            </span>
             <span className="ml-2 text-gray-400">@{username}</span>
             <span className="text-gray-400">
               <Dot size={15} />
@@ -84,6 +118,21 @@ export default function PostBox({
             </div>
           )}
         </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <div className="flex justify-center items-center text-gray-600 cursor-pointer hover:text-sky-600 hover:bg-sky-600/20 p-1 w-8 h-8 rounded-full">
+              <Ellipsis size={20} />
+            </div>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-44 bg-black hover:bg-black text-white text-lg">
+            <DropdownMenuItem className="hover:bg-pink-400">
+              <div className="flex gap-1.5 font-semibold text-red-500 ">
+                <Trash2 size={20} />
+                <span>Delete</span>
+              </div>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
 
       <div className="flex justify-between items-center px-2 text-gray-400">
