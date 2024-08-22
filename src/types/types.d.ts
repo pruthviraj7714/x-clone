@@ -9,6 +9,7 @@ declare module "next-auth" {
       id: string;
       email: string;
       name: string;
+      username : string;
     } & DefaultSession["user"];
   }
 
@@ -17,5 +18,6 @@ declare module "next-auth" {
    */
   interface User extends DefaultUser {
     id: string;
+    username : string
   }
 }
