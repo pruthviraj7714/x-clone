@@ -38,7 +38,7 @@ export default function ProfileTabs({
               activeTab !== "Posts" ? "hidden" : "visible"
             }`}
           >
-            <div className="flex flex-col">
+            <div className="flex flex-col w-full">
               {posts &&
                 posts.length > 0 &&
                 posts.map((post: any) => (
