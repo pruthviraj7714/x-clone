@@ -51,7 +51,7 @@ export default function Home() {
   }
 
   return (
-    <div className="border-l border-r p-2 border-gray-400 bg-black text-white flex flex-col">
+    <div className="border-l border-r p-2 border-white/15 bg-black text-white flex flex-col">
       <Twitte photo={userInfo?.photo} username={userInfo?.username} />
 
       {posts.map((post) => (
